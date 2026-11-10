@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<title>Sparkle Cleaner</title>
+<link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+<header>
+  <div class="top">
+    <img class="logo" src="logo.svg" alt=""><span class="hi">Sparkle Cleaner</span>
+    <span class="pill" title="Everything runs on your device — no limits, no account">∞ Local</span>
+    <button class="icon on" id="power" title="Auto-removal on/off"><svg viewBox="0 0 24 24"><path d="M12 3v9"/><path d="M6.4 6.4a8 8 0 1 0 11.2 0"/></svg></button>
+    <button class="icon" id="moon" title="Dark mode"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button>
+    <button class="icon" id="gear" title="Settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
+  </div>
+  <div class="tab" id="tabTitle">Remove watermark</div>
+</header>
+
+<!-- MAIN VIEW -->
+<main id="viewMain">
+  <div class="scroll">
+    <label class="drop" id="drop">
+      <div class="up"><svg viewBox="0 0 24 24"><path d="M12 16V5"/><path d="M7 9l5-5 5 5"/><path d="M5 20h14"/></svg></div>
+      <div class="d1">Drop an image or MP4 video, or click to upload</div>
+      <div class="d2">Processed locally — never uploaded · PNG, JPG, WebP · MP4</div>
+      <input id="file" type="file" accept="image/png,image/jpeg,image/webp,video/mp4,video/*" hidden>
+    </label>
+
+    <section id="previewBox" hidden>
+      <div class="stage"><canvas id="cv"></canvas><video id="vid" controls loop hidden></video><div class="busy" id="busy" hidden><div class="spin"></div><span id="busyText"></span></div></div>
+      <div class="scrubrow" id="scrubRow" hidden><span>Frame</span><input type="range" id="scrub" min="0" max="1000" value="400"><span id="tcode">0:00</span></div>
+      <div class="prow"><span id="status"></span><button class="link" id="hold" hidden>Hold to compare</button></div>
+      <div class="zoom" id="zoomBox" hidden>
+        <div><canvas id="zb" width="180" height="180"></canvas><small>Before</small></div>
+        <div><canvas id="za" width="180" height="180"></canvas><small>After (live)</small></div>
+      </div>
+    </section>
+
+    <section class="settings">
+      <div class="sh"><h3>Removal settings</h3><button class="link" id="guideBtn">Guide</button></div>
+      <div class="guide" id="guide" hidden>
+        <b>Tips</b>
+        <ul>
+          <li>Leave everything on default first — detection is automatic. The preview updates live as you move a slider; for video, pick a frame, tune, then press <i>Process video</i>.</li>
+          <li>Faint outline left? Raise <i>Edge cleanup</i> or <i>Mask size</i> slightly.</li>
+          <li>Not detected? Lower <i>Min match</i> a little, or click the sparkle on the preview.</li>
+          <li>Dark hole where the logo was? The logo wasn't there — raise <i>Min match</i>.</li>
+        </ul>
+      </div>
+      <div class="hint" id="hint">Upload an image or MP4 video to adjust the removal settings.</div>
+      <div id="controls" class="disabled"></div>
+    </section>
+  </div>
+  <footer>
+    <button class="btn ghost" id="reset"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Reset</button>
+    <button class="btn mid" id="save"><svg viewBox="0 0 24 24"><path d="M5 3h11l3 3v15H5z"/><path d="M8 3v6h8V3"/><path d="M8 21v-7h8v7"/></svg>Save settings</button>
+    <button class="btn main" id="download" disabled><svg viewBox="0 0 24 24"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg><span id="dlText">Download</span></button>
+  </footer>
+  <div class="credit">Sparkle Cleaner · made by Harshal Patil</div>
+</main>
+
+<!-- SETTINGS VIEW -->
+<main id="viewSettings" hidden>
+  <div class="scroll pad">
+    <button class="back" id="back">← Back</button>
+    <h4>Display &amp; notifications</h4>
+    <div class="row"><span>Auto-download processed video</span><label class="sw"><input type="checkbox" data-ui="autoDownload"><i></i></label></div>
+    <div class="row"><span>Show notifications</span><label class="sw"><input type="checkbox" data-ui="notify"><i></i></label></div>
+    <div class="row"><span>Dark mode</span><label class="sw"><input type="checkbox" data-ui="dark"><i></i></label></div>
+    <h4>Advanced</h4>
+    <div class="row"><div><span>Auto removal on Gemini</span><small>Silently clean downloads in-page</small></div><label class="sw"><input type="checkbox" data-ui="autoRemoval"><i></i></label></div>
+    <div class="row"><div><span>Floating “Clean” button</span><small>Show a button on image &amp; video tiles</small></div><label class="sw"><input type="checkbox" data-ui="floatButton"><i></i></label></div>
+    <div class="row"><div><span>Enable on Google Flow</span><small>Turn off if Flow's own watermark toggle works in your region</small></div><label class="sw"><input type="checkbox" data-ui="flow"><i></i></label></div>
+    <div class="row"><div><span>Skip preview &amp; download automatically</span><small>Off shows a preview to review before download</small></div><label class="sw"><input type="checkbox" data-ui="skipPreview"><i></i></label></div>
+    <button class="btn danger" id="resetAll">Reset to Defaults</button>
+    <h4>Updates</h4>
+    <div class="row"><div><span>Auto-check every 15 days</span><small id="updInfo">Not checked yet</small></div><button class="btn mid" id="updNow" style="flex:none;padding:0 12px">Check now</button></div>
+    <div id="updList"></div>
+    <div class="row"><div style="flex:1"><span>Update feed URL (optional)</span><small>JSON: {"version":"2.1.0","url":"…","notes":"…","zip":"https://…/sparkle-cleaner-2.1.0.zip","sha256":"…"} — <i>zip</i> + <i>sha256</i> are needed to apply it</small><input id="updFeed" type="url" placeholder="https://…/sparkle-cleaner.json" style="width:100%;margin-top:6px"></div></div>
+    <div class="row"><div style="flex:1"><span>Extension folder</span><small id="dirInfo">Not chosen — needed to apply updates</small></div><button class="btn mid" id="pickDir" style="flex:none;padding:0 12px">Choose…</button></div>
+    <div id="updStatus" role="status" style="font-size:12px;margin:6px 0"></div>
+    <button class="btn mid" id="reloadExt" style="width:100%">Reload extension</button>
+    <h4>About</h4>
+    <div class="about"><b>Sparkle Cleaner</b> — made by <b>Harshal Patil</b><br>Personal-use tool. Removes the visible Gemini / Flow sparkle from files you generated. Does not touch invisible provenance marks (SynthID).<br><small>Version <span id="ver"></span></small></div>
+  </div>
+</main>
+
+<script src="alpha.js"></script><script src="veo.js"></script><script src="mp4-muxer.js"></script><script src="core.js"></script><script src="updater.js"></script><script src="sidepanel.js"></script>
+</body>
+</html>

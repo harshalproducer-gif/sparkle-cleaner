@@ -1,0 +1,7 @@
+{
+  "version": "2.1.0",
+  "url": "https://github.com/harshalproducer-gif/sparkle-cleaner/releases/tag/v2.1.0",
+  "notes": "Adds Apply update (writes new releases into your extension folder) and tracks gemini-watermark-remover v1.0.46.",
+  "zip": "https://github.com/harshalproducer-gif/sparkle-cleaner/releases/download/v2.1.0/SparkleCleaner-2.1.0.zip",
+  "sha256": "fad6f295a28604a3b1f390a0d6f29ca5940828f452fb80ab67037db268de6841"
+}
